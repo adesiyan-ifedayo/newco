@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="card">
+	<div class="card-body">
+		<div class="form-group">
+    		<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder='Share with others what you would love to achieve in the next few moments and document the process'></textarea>
+  		</div>
+  		<input type="submit" value="Share">
+  	</div>
+</div>  		
+
+
+
+	{% for obj in journal %}
+	
+	
+	<div class="card">
+			<div class="card-body">
+			  <div class="jumbotron">
+			  		<div class="media">
+  						<img class='rounded-circle account-img' class="align-self-center mr-3" src='{{ obj.user.profile.image.url }}' width='80px' height="80px"  />
+  						<div class="media-body">
+   							<h5 class="mt-0"></h5>
+    						<p><p class='article-content'>{{ obj.content|truncatewords:20 }}.....<a href='/journal/{{obj.slug}}/'>see more</a></p>
+				  			<p class='mr-2'><b>{{obj.user}}</b> | <small class='text-muted'>{{obj.timestamp|date:"F d, Y"}}</small></p></p>
+    						
+  				</div>
+			</div>
+			   
+				  
+			  </div>
+			</div>
+		  </div> 
+		   	
+	{% endfor %} 
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+

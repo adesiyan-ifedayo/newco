@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="card">
+        <div class="card-body">
+          <div class="jumbotron">
+            {% if image %}
+              <img src='{{ journal.image.url }}' width='100px' height='120px'/>
+            {% endif %}
+              <h4 class="display-12">{{journal.imp_note}}</h4>
+              <p>{{ journal.content|linebreaks }}</p>
+              <hr>
+              <p><b>{{journal.user}}</b> | <small>{{journal.timestamp}}</small><img class='rounded-circle account-img' class = ="align-self-center mr-3" src='{{ journal.user.profile.image.url }}' width='50px' height="50px" border="10px" /></p>
+          </div>
+        </div>
+</div>
+{% if request.user.is_authenticated %}
+    {% if request.user.is_active %}
+    <div class="card">
+            <div class="card-body">
+                <a href='delete'>Delete</a> | <a href='edit'>Edit</a>
+                
+            </div>
+    </div>            
+
+    {% endif %}
+{% endif %}
+{% endblock %}

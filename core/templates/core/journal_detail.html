@@ -1,0 +1,67 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class='container'>
+<div class="card">
+        <div class="card-body">
+          <div class="jumbotron">
+            
+              <p><b>{{journal.user}}</b> | <small>{{journal.timestamp}}</small><img class='rounded-circle account-img' class = ="align-self-center mr-3" src='{{ journal.user.profile.image.url }}' width='50px' height="50px" border="10px" /></p>
+              <hr>
+              
+              <h4 class="display-12">{{journal.imp_note}}</h4>
+              <p>{{ journal.content|linebreaks }}</p>
+              {% if journal.image %}
+                  <img src='{{ journal.image.url }}' height='300px' width='300px' />
+              {% endif %} 
+              
+              
+        </div>
+</div>
+
+<div>
+  <p class='lead'>Comments</p>
+  <form method="POST">{% csrf_token %}
+            {{ comment_form }}    
+                    
+    <button type='submit' >Post Comment</button>
+       
+  </form>
+  {% for comment in comments %}
+    <blockquote>
+      <p>{{ comment.content }}</p>
+      <footer><small>- via {{ comment.user }} | {{ comment.timestamp|timesince }} ago| <a href='/journal/{{ comment.id }}/comment-delete'>Delete</a></small></footer>
+      {% for child_comment in comment.children %}
+      <blockquote>
+        <p>{{ child_comment.content }}</p>
+        <footer><small>- via {{ child_comment.user }} | {{ child_comment.timestamp|timesince }} ago </small>footer>
+      </blockquote>
+      {% endfor %}
+</footer>
+</blockquote>
+</blockquote>
+</div>
+</div>
+
+    <!--    <form method="POST">{% csrf_token %}
+            {{ comment_form }}    
+            <input type='hidden' name='parent_id' value='{{ comment.id }}'>        
+            <input type='submit' value='Reply' class='btn btn-default'>
+       
+        </form>
+    </blockquote>-->
+    <hr/>
+  {% endfor %}
+</div>
+{% if request.user.is_authenticated %}
+    {% if request.user.is_active %}
+    <div class="card">
+            <div class="card-body">
+                <a href='delete'>Delete</a> | <a href='edit'>Edit</a>
+                
+            </div>
+    </div>            
+
+    {% endif %}
+{% endif %}
+{% endblock %}
